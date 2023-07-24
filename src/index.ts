@@ -22,17 +22,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const client = new Client({ authStrategy: new LocalAuth({ clientId: "5511995052373" }) });
 
+let QRCODE = "TESTE"
+
+client.on("qr", async (qr) => {
+  console.log("GENERATE QRCODE");
+  // QRCODE = await qrcode.toDataURL(qr)
+
+  qrcodeterminal.generate(qr, { small: true });
+});
+
 app.get("/", async (req: Request, res: Response) => {
-  let zapQR = ""
-
-  client.on("qr", async (qr) => {
-    console.log("GENERATE QRCODE");
-    zapQR = await qrcode.toDataURL(qr)
-
-    qrcodeterminal.generate(qr, { small: true });
-
-    return res.send(`<img src="${zapQR}"><img/>`)
-  });
+  return res.send(`<img src="${QRCODE}"><img/>`)
 })
 
 client.on('ready', () => {
