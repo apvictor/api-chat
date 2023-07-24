@@ -16,6 +16,9 @@ export const WhatsAppController = {
             { to: from },
           ],
           NOT: { from: "status" }
+        },
+        orderBy: {
+          timestamp: "desc"
         }
       });
 
