@@ -2,7 +2,7 @@
   "version": 2,
   "name": "api-chat",
   "builds": [
-     { "src": "src/index.ts", "use": "@now/node" }
+     { "src": "src/index.ts", "use": "@vercel/node" }
   ],
   "routes": [
      { "src": "/(.*)", "dest": "/src/index.ts" }

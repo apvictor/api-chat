@@ -34,16 +34,14 @@ const client = new Client({ authStrategy: new LocalAuth({ clientId: "55119950523
 
 app.get('/', async (req: Request, res: Response) => {
   try {
-    const client = new Client({ authStrategy: new LocalAuth({ clientId: "5511995052373" }) });
     let qr = await new Promise((resolve, reject) => {
+
       client.once('qr', (qr) => resolve(qr))
-      setTimeout(() => {
-        reject(new Error("QR event wasn't emitted in 15 seconds."))
-      }, 15000)
-    })
-    res.send(`<img src="${await qrcode.toDataURL(`${qr}`)}"><img/>`)
+    });
+
+    return res.send(`<img src="${await qrcode.toDataURL(`${qr}`)}"><img/>`)
   } catch (err) {
-    res.send(err)
+    return res.send(err)
   }
 })
 
