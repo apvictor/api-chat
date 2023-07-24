@@ -1,3 +1,4 @@
+import { uuid } from 'uuidv4';
 import 'dotenv/config'
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
@@ -19,38 +20,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const client = new Client({ authStrategy: new LocalAuth({ clientId: "5511995052373" }) });
 
-// let QRCODE = "TESTE"
+let QRCODE = "TESTE"
 
-// client.on("qr", (qr) => {
-//   console.log("GENERATE QRCODE");
+client.initialize().then((res) => {
+  console.log("PRONTO");
+});
 
-//   QRCODE = qr
+client.on("qr", (qr) => {
+  QRCODE = qr
+  qrcodeterminal.generate(qr, { small: true });
+  console.log("GENERATE QRCODE");
+});
 
-//   console.log("QRCODE 2", QRCODE);
-
-//   qrcodeterminal.generate(qr, { small: true });
-// });
-
-
-app.get('/', async (req: Request, res: Response) => {
-  try {
-    let qr = await new Promise((resolve, reject) => {
-
-      client.once('qr', (qr) => resolve(qr))
-    });
-
-    return res.send(`<img src="${await qrcode.toDataURL(`${qr}`)}"><img/>`)
-  } catch (err) {
-    return res.send(err)
-  }
+app.get("/", async (req: Request, res: Response) => {
+  return res.send(`<img src="${await qrcode.toDataURL(QRCODE)}"/>`)
 })
 
-// app.get("/", async (req: Request, res: Response) => {
-//   return res.send(`<img src="${await qrcode.toDataURL(QRCODE)}"><img/>`)
-// })
-
 client.on('ready', () => {
-  console.log('Client is ready!');
+  console.log('O cliente está pronto!');
 });
 
 client.on('message', (message) => {
@@ -86,8 +73,6 @@ client.on('message', (message) => {
       })
     });
 });
-
-client.initialize();
 
 app.use(router);
 

@@ -1,13 +1,16 @@
+import { uuid } from 'uuidv4';
+
 import { Client, LocalAuth } from "whatsapp-web.js"
 
-const client = new Client({});
+export const client = new Client({ authStrategy: new LocalAuth({ clientId: uuid() }) });
 
-client.on('qr', (qr) => {
-  console.log('QR RECEIVED', qr);
-});
+// client.on('qr', (qr) => {
+//   console.log(qr);
+//   return qr
+// })
 
-client.on('ready', () => {
-  console.log('Client is ready!');
-});
+// client.on('ready', () => {
+//   console.log('O cliente está pronto!');
+// });
 
 client.initialize();
