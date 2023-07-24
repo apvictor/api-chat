@@ -6,9 +6,6 @@ import qrcode from "qrcode"
 import qrcodeterminal from "qrcode-terminal"
 import cors from "cors"
 
-import { serve, setup } from "swagger-ui-express";
-import swaggerFile from "../swagger_output.json";
-
 import { router } from "./router";
 import { PrismaClient } from '@prisma/client';
 
@@ -27,12 +24,15 @@ let QRCODE = "TESTE"
 client.on("qr", (qr) => {
   console.log("GENERATE QRCODE");
 
+  QRCODE = qr
+
+  console.log("QRCODE 2", QRCODE);
+
   qrcodeterminal.generate(qr, { small: true });
 });
 
 app.get("/", async (req: Request, res: Response) => {
-  QRCODE = await qrcode.toDataURL(QRCODE)
-  return res.send(`<img src="${QRCODE}"><img/>`)
+  return res.send(`<img src="${await qrcode.toDataURL(QRCODE)}"><img/>`)
 })
 
 client.on('ready', () => {
@@ -76,8 +76,6 @@ client.on('message', (message) => {
 client.initialize();
 
 app.use(router);
-
-// app.use("/", serve, setup(swaggerFile));
 
 app.listen(process.env.PORT ?? 3000, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT ?? 3000}`);
