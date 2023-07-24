@@ -24,7 +24,7 @@ const client = new Client({ authStrategy: new LocalAuth({ clientId: "55119950523
 
 let QRCODE = "TESTE"
 
-client.on("qr", async (qr) => {
+client.on("qr", (qr) => {
   console.log("GENERATE QRCODE");
   // QRCODE = await qrcode.toDataURL(qr)
 
