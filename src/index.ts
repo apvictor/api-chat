@@ -19,17 +19,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const client = new Client({ authStrategy: new LocalAuth({ clientId: "5511995052373" }) });
 
-let QRCODE = "TESTE"
+// let QRCODE = "TESTE"
 
-client.on("qr", (qr) => {
-  console.log("GENERATE QRCODE");
+// client.on("qr", (qr) => {
+//   console.log("GENERATE QRCODE");
 
-  QRCODE = qr
+//   QRCODE = qr
 
-  console.log("QRCODE 2", QRCODE);
+//   console.log("QRCODE 2", QRCODE);
 
-  qrcodeterminal.generate(qr, { small: true });
-});
+//   qrcodeterminal.generate(qr, { small: true });
+// });
 
 
 app.get('/', async (req: Request, res: Response) => {
