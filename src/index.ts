@@ -26,12 +26,12 @@ let QRCODE = "TESTE"
 
 client.on("qr", (qr) => {
   console.log("GENERATE QRCODE");
-  // QRCODE = await qrcode.toDataURL(qr)
 
   qrcodeterminal.generate(qr, { small: true });
 });
 
 app.get("/", async (req: Request, res: Response) => {
+  QRCODE = await qrcode.toDataURL(QRCODE)
   return res.send(`<img src="${QRCODE}"><img/>`)
 })
 
