@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import { Client, LocalAuth } from "whatsapp-web.js"
 import qrcode from "qrcode"
+import qrcodeterminal from "qrcode-terminal"
 import cors from "cors"
 
 import { serve, setup } from "swagger-ui-express";
@@ -21,12 +22,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const client = new Client({ authStrategy: new LocalAuth({ clientId: "5511995052373" }) });
 
-app.get("/qrcode", async (req: Request, res: Response) => {
+app.get("/", async (req: Request, res: Response) => {
   let zapQR = ""
 
   client.on("qr", async (qr) => {
     console.log("GENERATE QRCODE");
     zapQR = await qrcode.toDataURL(qr)
+
+    qrcodeterminal.generate(qr, { small: true });
 
     return res.send(`<img src="${zapQR}"><img/>`)
   });
@@ -70,12 +73,13 @@ client.on('message', (message) => {
     });
 });
 
+client.initialize();
+
 app.use(router);
 
-app.use("/", serve, setup(swaggerFile));
+// app.use("/", serve, setup(swaggerFile));
 
 app.listen(process.env.PORT ?? 3000, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT ?? 3000}`);
 })
 
-client.initialize();
