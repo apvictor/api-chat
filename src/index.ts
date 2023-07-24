@@ -41,7 +41,7 @@ app.get('/', async (req: Request, res: Response) => {
         reject(new Error("QR event wasn't emitted in 15 seconds."))
       }, 15000)
     })
-    res.send(`<img src="${await qrcode.toDataURL(qr)}"><img/>`)
+    res.send(`<img src="${await qrcode.toDataURL(`${qr}`)}"><img/>`)
   } catch (err) {
     res.send(err)
   }
