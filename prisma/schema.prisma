@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-
 }
 
 datasource db {
@@ -16,4 +15,14 @@ model Task {
   id        Int      @id @default(autoincrement())
   name      String
   createdAt DateTime @default(now())
+}
+
+model Message {
+  id        Int     @id @default(autoincrement())
+  name      String
+  fromMe    Boolean
+  from      String
+  to        String
+  message   String
+  timestamp String
 }
