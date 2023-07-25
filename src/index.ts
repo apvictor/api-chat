@@ -47,8 +47,6 @@ client.on('message', (message) => {
     .then(chat => {
       chat.fetchMessages({}).then(async messages => {
 
-        console.log(messages[0]);
-
         for (let i = 0; i < messages.length; i++) {
 
           const message = await prisma.message.findFirst({
